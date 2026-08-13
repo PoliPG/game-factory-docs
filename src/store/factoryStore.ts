@@ -68,6 +68,22 @@ function freshSeed(): FactoryData {
   return structuredClone(seedData);
 }
 
+/**
+ * Comprueba que lo recuperado de localStorage tiene la forma esperada. Un
+ * guardado a medias o de una version incompatible reventaria el primer render
+ * y dejaria la pagina muerta, asi que en ese caso se descarta.
+ */
+function isFactoryData(value: unknown): value is FactoryData {
+  if (typeof value !== 'object' || value === null) return false;
+  const data = value as Partial<FactoryData>;
+  return (
+    Array.isArray(data.categories) &&
+    Array.isArray(data.machines) &&
+    Array.isArray(data.materials) &&
+    Array.isArray(data.recipes)
+  );
+}
+
 export const useFactoryStore = create<FactoryState>()(
   persist(
     (set, get) => ({
@@ -242,6 +258,10 @@ export const useFactoryStore = create<FactoryState>()(
       // La version 1 guardaba un arbol de ejemplo distinto. Se descarta para
       // que al abrir la pagina aparezca el arbol actual en lugar del anterior.
       migrate: (persisted, version) => (version < 2 ? { data: freshSeed() } : persisted),
+      merge: (persisted, current) => {
+        const saved = (persisted as { data?: unknown } | undefined)?.data;
+        return { ...current, data: isFactoryData(saved) ? saved : current.data };
+      },
     },
   ),
 );

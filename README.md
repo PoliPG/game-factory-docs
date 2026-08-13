@@ -72,6 +72,13 @@ npm run typecheck  # solo TypeScript
   CI la base es relativa y `dist/` se puede servir desde cualquier carpeta.
 - No usa `actions/configure-pages`: la base la fija el propio workflow, y así
   hay un punto menos de fallo.
+- **Los assets se compilan con nombre fijo** (`assets/index.js`), sin hash de
+  contenido. GitHub Pages cachea el `index.html` diez minutos: con hash, un HTML
+  cacheado pide un bundle que el despliegue siguiente ya ha borrado y la página
+  se queda cargando para siempre. Con nombre fijo el archivo existe siempre.
+- Si aun así algo falla al cargar, `index.html` lleva una red de seguridad que
+  recarga una vez saltándose la caché y, si el problema persiste, muestra el
+  motivo en pantalla en lugar de dejar la página colgada.
 - También se puede lanzar a mano desde **Actions → Deploy a GitHub Pages → Run
   workflow**.
 

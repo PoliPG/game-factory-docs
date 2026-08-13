@@ -49,6 +49,34 @@ button {
   color: inherit;
 }
 
+/* Pantalla de fallo de arranque (ErrorBoundary). */
+.boot-error {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  padding: 24px;
+  text-align: center;
+}
+
+.boot-error__icon {
+  margin: 0 0 8px;
+  font-size: 32px;
+}
+
+.boot-error h1 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.boot-error__detail {
+  margin: 0 0 14px;
+  color: var(--text-faint);
+  font-size: 12px;
+  font-family: var(--mono);
+  max-width: 60ch;
+  word-break: break-word;
+}
+
 /* ---------------------------------------------------------------- layout */
 
 .app {

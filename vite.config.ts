@@ -13,6 +13,21 @@ const base = process.env.BASE_PATH || './';
 export default defineConfig({
   base,
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        // Nombres de archivo estables, sin hash de contenido. GitHub Pages
+        // cachea el HTML diez minutos: con hash, un index.html cacheado pide
+        // un bundle que el despliegue siguiente ya ha borrado, y la pagina se
+        // queda cargando para siempre. Con nombres fijos el archivo existe
+        // siempre; como mucho se sirve una version cacheada durante unos
+        // minutos, que es un problema mucho menor.
+        entryFileNames: 'assets/[name].js',
+        chunkFileNames: 'assets/[name].js',
+        assetFileNames: 'assets/[name][extname]',
+      },
+    },
+  },
   server: {
     host: true,
     port: 5173,
