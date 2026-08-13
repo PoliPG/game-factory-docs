@@ -5,6 +5,7 @@ producción de un juego de automatización: qué materiales existen, qué receta
 los transforman y cómo se conectan entre sí.
 
 **▶ [Verlo en funcionamiento](https://polipg.github.io/game-factory-docs/)**
+[![Deploy a GitHub Pages](https://github.com/PoliPG/game-factory-docs/actions/workflows/deploy.yml/badge.svg)](https://github.com/PoliPG/game-factory-docs/actions/workflows/deploy.yml)
 
 ![Vista general del grafo](docs/captura-grafo.png)
 
