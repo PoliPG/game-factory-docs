@@ -47,11 +47,13 @@ npm run typecheck  # solo TypeScript
 
 `.github/workflows/deploy.yml` compila el proyecto y publica `dist/` en Pages.
 
-> **Un paso manual, solo la primera vez:** entra en **Settings → Pages** y elige
-> **Source: GitHub Actions**. El `GITHUB_TOKEN` de un workflow no tiene permiso
-> para crear el sitio, así que hasta que no lo actives el job *Publicar* falla
-> con `Resource not accessible by integration`. Una vez activado, cada push
-> despliega solo.
+> **Un paso manual, solo la primera vez:** entra en
+> [Settings → Pages](../../settings/pages) y elige **Source: GitHub Actions**.
+> El `GITHUB_TOKEN` de un workflow no tiene permiso para crear el sitio, así
+> que hasta entonces el job *Publicar* falla con
+> `Failed to create deployment (status: 404)… Ensure GitHub Pages has been
+> enabled`. Después, vuelve a lanzar el workflow desde **Actions → Deploy a
+> GitHub Pages → Re-run jobs**; a partir de ahí cada push despliega solo.
 
 - **Se compila en cada push y en cada pull request**, en cualquier rama, así un
   error de tipos o de build salta antes de mezclar.
