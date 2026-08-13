@@ -64,6 +64,7 @@
         function mostrarError(motivo) {
           var root = document.getElementById('root');
           if (!root || root.dataset.mounted === '1') return;
+          sessionStorage.removeItem(RELOAD_FLAG);
           root.innerHTML =
             '<div style="display:grid;place-items:center;height:100vh;background:#070b11;' +
             'color:#e6edf5;font:14px/1.6 system-ui,sans-serif;text-align:center;padding:24px">' +
@@ -79,9 +80,21 @@
           'error',
           function (event) {
             var el = event.target;
-            if (el && (el.tagName === 'SCRIPT' || el.tagName === 'LINK')) {
-              recargarSinCache('No se pudo descargar ' + (el.src || el.href));
+            if (!el || (el.tagName !== 'SCRIPT' && el.tagName !== 'LINK')) return;
+            var url = el.src || el.href || '';
+
+            // Si lo que falta es un archivo de src/, no es un problema de
+            // cache: se esta sirviendo el repositorio sin compilar. Recargar no
+            // arregla nada, asi que se explica que hay que revisar.
+            if (url.indexOf('/src/') !== -1) {
+              mostrarError(
+                'El sitio esta sirviendo el codigo sin compilar (' +
+                  url +
+                  '). En GitHub, Settings → Pages → Source debe ser "GitHub Actions", no "Deploy from a branch".',
+              );
+              return;
             }
+            recargarSinCache('No se pudo descargar ' + url);
           },
           true,
         );

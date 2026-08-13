@@ -60,6 +60,12 @@ npm run typecheck  # solo TypeScript
 > `Failed to create deployment (status: 404)… Ensure GitHub Pages has been
 > enabled`. Después, vuelve a lanzar el workflow desde **Actions → Deploy a
 > GitHub Pages → Re-run jobs**; a partir de ahí cada push despliega solo.
+>
+> Tiene que ser **GitHub Actions**, no *Deploy from a branch*. Con la opción de
+> rama, GitHub publica los archivos del repositorio tal cual —incluido el
+> `index.html` de desarrollo, que enlaza `/src/main.tsx`— y machaca lo que sube
+> el workflow. Se reconoce porque aparece un segundo workflow llamado
+> `pages-build-deployment` y la página falla al descargar un archivo de `src/`.
 
 - **Se compila en cada push y en cada pull request**, en cualquier rama, así un
   error de tipos o de build salta antes de mezclar.
