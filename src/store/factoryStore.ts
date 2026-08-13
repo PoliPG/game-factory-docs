@@ -252,13 +252,13 @@ export const useFactoryStore = create<FactoryState>()(
     }),
     {
       name: 'game-factory-docs:v1',
-      version: 3,
+      version: 4,
       // Solo el arbol de produccion sobrevive a la recarga; el estado de UI no.
       partialize: (state) => ({ data: state.data }),
-      // Las versiones anteriores guardaban otro arbol (v1) o el mismo sin
-      // maquinas asignadas (v2). Se descartan para que al abrir la pagina
-      // aparezca el arbol actual en lugar del anterior.
-      migrate: (persisted, version) => (version < 3 ? { data: freshSeed() } : persisted),
+      // Las versiones anteriores guardaban otro arbol (v1), el mismo sin
+      // maquinas asignadas (v2) o sin la receta de piedra tallada (v3). Se
+      // descartan para que al abrir la pagina aparezca el arbol actual.
+      migrate: (persisted, version) => (version < 4 ? { data: freshSeed() } : persisted),
       merge: (persisted, current) => {
         const saved = (persisted as { data?: unknown } | undefined)?.data;
         return { ...current, data: isFactoryData(saved) ? saved : current.data };

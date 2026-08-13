@@ -30,9 +30,9 @@ los transforman y cómo se conectan entre sí.
 - **Importar / exportar JSON** para versionar el árbol en el repositorio o
   compartirlo.
 - **Avisos de consistencia**: materiales que ninguna receta produce, recetas sin
-  salida, referencias rotas, ciclos de 0 s. En el árbol actual señala tres
-  huecos reales: *Piedra tallada* la piden varias recetas pero nada la produce,
-  y *Costillas* y *Grava* no se usan todavía en ninguna receta.
+  salida, referencias rotas, ciclos de 0 s. Así salió a la luz que *Piedra
+  tallada* se usaba en cuatro recetas sin tener forma de fabricarse. Quedan dos
+  avisos abiertos: *Costillas* y *Grava* no se usan todavía en ninguna receta.
 
 ## Puesta en marcha
 
@@ -103,7 +103,7 @@ pozo:
 | **Yacimientos** | Vetas de cristal · Cementerio · Bosque retorcido · Cantera antigua |
 | **N1 Procesamiento básico** | tablas, bloques de piedra, polvo de hueso, cuero tratado, fibras |
 | **N2 Materiales arcanos** | esencia arcana, cristal pulido, núcleos arcano y óseo |
-| **N3 Componentes industriales** | engranajes, placas, cables y conductos arcanos |
+| **N3 Componentes industriales** | engranajes, placas, piedra tallada, cables y conductos arcanos |
 | **N4 Objetos rituales** | velas, incienso, tinta, pergaminos, sellos, ídolos |
 | **N5 Artefactos** | ojo arcano, corazón artificial, máscara, tótem, llave ciclópea, orbe |
 | **N6 Recursos cósmicos** | fragmento del vacío, sangre cristalizada, eco dimensional… |
@@ -120,7 +120,7 @@ máquina en la cabecera y el nivel como etiqueta `N1`…`N7`.
 | Máquina | Trabajo | Recetas |
 | --- | --- | ---: |
 | ⚒️ Trituradora | moler y fragmentar: polvo de hueso, piedra, cristal | 6 |
-| 🔨 Mesa de tallado | cortar madera y piedra: tablas, bloques, placas, llave ciclópea | 5 |
+| 🔨 Mesa de tallado | cortar madera y piedra: tablas, bloques, placas, piedra tallada, llave ciclópea | 6 |
 | ⚗️ Caldero alquímico | macerar y destilar: resinas, extractos, tintas, curtidos | 7 |
 | 🔱 Altar de infusión | infundir energía arcana: esencias, núcleos, cables | 8 |
 | 🧰 Banco de ensamblaje | montar piezas: engranajes, placas, corazón artificial | 6 |

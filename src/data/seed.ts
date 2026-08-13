@@ -153,8 +153,7 @@ export const seedData: FactoryData = {
       name: 'Piedra tallada',
       icon: '🗿',
       categoryId: 'piedra',
-      description:
-        'Ojo: varias recetas de nivel 4 y 5 la piden, pero no hay receta que la produzca ni figura como recurso base.',
+      description: 'Base de los sellos, los idolos y la llave ciclopea.',
     },
 
     // === NIVEL 4 ===========================================================
@@ -389,6 +388,16 @@ export const seedData: FactoryData = {
       tier: 3,
       inputs: [{ materialId: 'bloque-piedra', amount: 2 }],
       outputs: [{ materialId: 'placas-piedra', amount: 3 }],
+    },
+    {
+      id: 'r-piedra-tallada',
+      name: 'Piedra tallada',
+      machineId: 'mesa-tallado',
+      tier: 3,
+      inputs: [{ materialId: 'bloque-piedra', amount: 2 }],
+      outputs: [{ materialId: 'piedra-tallada', amount: 1 }],
+      notes:
+        'Cierra el hueco de la lista original, donde la piedra tallada se usaba en cuatro recetas sin tener forma de fabricarse. Sigue el mismo patron 2 a 1 que el bloque de piedra.',
     },
     {
       id: 'r-placa-reforzada',
