@@ -35,10 +35,12 @@ jobs:
       # pull requests, asi un fallo de compilacion se detecta antes de mezclar.
       - name: Compilar
         run: npm run build
-
-      # No hace falta actions/configure-pages: vite.config.ts usa base relativa
-      # ('./'), asi que el sitio funciona en cualquier ruta sin conocer la URL
-      # de Pages durante la compilacion.
+        env:
+          # El sitio de Pages cuelga de /<repo>/. Con esta base los assets se
+          # piden por ruta absoluta y la pagina carga igual se entre con barra
+          # final o sin ella. Se recalcula en cada ejecucion, asi que renombrar
+          # el repositorio no rompe nada.
+          BASE_PATH: /${{ github.event.repository.name }}/
       - name: Subir artefacto
         if: github.ref_name == github.event.repository.default_branch
         uses: actions/upload-pages-artifact@v3
