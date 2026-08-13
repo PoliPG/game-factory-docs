@@ -22,7 +22,7 @@ export function MachineForm({ machineId, onDone }: Props) {
     event.preventDefault();
     const name = draft.name.trim();
     if (!name) {
-      setError('La maquina necesita un nombre.');
+      setError('La estacion necesita un nombre.');
       return;
     }
     upsertMachine({ ...draft, id: machineId, name, icon: draft.icon.trim() || '🏭' });
@@ -45,7 +45,7 @@ export function MachineForm({ machineId, onDone }: Props) {
           <input
             value={draft.name}
             onChange={(e) => setDraft({ ...draft, name: e.target.value })}
-            placeholder="Ensambladora"
+            placeholder="Mesa de tallado"
             autoFocus
           />
         </label>
@@ -86,7 +86,7 @@ export function MachineForm({ machineId, onDone }: Props) {
           Cancelar
         </button>
         <button type="submit" className="btn btn--primary">
-          {machineId ? 'Guardar' : 'Crear maquina'}
+          {machineId ? 'Guardar' : 'Crear estacion'}
         </button>
       </footer>
     </form>

@@ -16,6 +16,7 @@ function MaterialDetails({ material }: { material: Material }) {
   const renderRecipes = (recipes: Recipe[], side: 'outputs' | 'inputs') =>
     recipes.map((recipe) => {
       const item = recipe[side].find((x) => x.materialId === material.id)!;
+      const rate = perMinute(item.amount, recipe.time);
       return (
         <button
           key={recipe.id}
@@ -27,11 +28,12 @@ function MaterialDetails({ material }: { material: Material }) {
           <span className="link-row__text">
             <span className="link-row__title">{recipe.name}</span>
             <span className="link-row__sub">
-              {machine(recipe.machineId)?.name ?? 'Sin maquina'} · {formatAmount(recipe.time)} s
+              {machine(recipe.machineId)?.name ?? 'Sin estacion'}
+              {recipe.time !== undefined && ` · ${formatAmount(recipe.time)} s`}
             </span>
           </span>
           <span className="link-row__rate">
-            {formatAmount(perMinute(item.amount, recipe.time))}/min
+            {rate !== null ? `${formatAmount(rate)}/min` : `×${formatAmount(item.amount)}`}
           </span>
         </button>
       );
@@ -66,7 +68,7 @@ function MaterialDetails({ material }: { material: Material }) {
         <div className="inspector__block">
           <h3>Extraccion</h3>
           <p className="inspector__line">
-            {machine(material.extractedBy ?? '')?.name ?? 'Maquina sin definir'}
+            {machine(material.extractedBy ?? '')?.name ?? 'Yacimiento sin definir'}
             {material.extractionRate ? ` · ${formatAmount(material.extractionRate)}/min` : ''}
           </p>
         </div>
@@ -107,6 +109,7 @@ function RecipeDetails({ recipe }: { recipe: Recipe }) {
     items.map((item) => {
       const material = materialById.get(item.materialId);
       const category = material && data.categories.find((c) => c.id === material.categoryId);
+      const rate = perMinute(item.amount, recipe.time);
       return (
         <button
           key={item.materialId}
@@ -123,7 +126,7 @@ function RecipeDetails({ recipe }: { recipe: Recipe }) {
             </span>
           </span>
           <span className="link-row__rate">
-            {formatAmount(perMinute(item.amount, recipe.time))}/min
+            {rate !== null ? `${formatAmount(rate)}/min` : ''}
           </span>
         </button>
       );
@@ -139,7 +142,8 @@ function RecipeDetails({ recipe }: { recipe: Recipe }) {
             {recipe.alternate && <span className="tag tag--alt">alt</span>}
           </h2>
           <p className="inspector__sub">
-            {machine?.name ?? 'Sin maquina'} · ciclo de {formatAmount(recipe.time)} s
+            {machine?.name ?? 'Sin estacion'}
+            {recipe.time !== undefined && ` · ciclo de ${formatAmount(recipe.time)} s`}
             {machine?.powerMw !== undefined &&
               (machine.powerMw < 0
                 ? ` · genera ${formatAmount(-machine.powerMw)} MW`

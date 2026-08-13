@@ -103,7 +103,7 @@ export function MaterialForm({ materialId, onDone }: Props) {
       {draft.raw && (
         <div className="form__row">
           <label className="field field--grow">
-            <span>Maquina de extraccion</span>
+            <span>Yacimiento</span>
             <select
               value={draft.extractedBy ?? ''}
               onChange={(e) => patch({ extractedBy: e.target.value || undefined })}

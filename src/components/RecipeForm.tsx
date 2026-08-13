@@ -13,13 +13,14 @@ type Draft = Omit<Recipe, 'id'>;
 interface ItemListProps {
   title: string;
   items: RecipeItem[];
-  time: number;
+  time?: number;
   onChange: (items: RecipeItem[]) => void;
   emptyLabel: string;
 }
 
 function ItemList({ title, items, time, onChange, emptyLabel }: ItemListProps) {
   const materials = useFactoryStore((s) => s.data.materials);
+  const rateOf = (amount: number) => perMinute(amount, time);
 
   const update = (index: number, values: Partial<RecipeItem>) =>
     onChange(items.map((item, i) => (i === index ? { ...item, ...values } : item)));
@@ -61,7 +62,9 @@ function ItemList({ title, items, time, onChange, emptyLabel }: ItemListProps) {
             value={item.amount}
             onChange={(e) => update(index, { amount: Number(e.target.value) })}
           />
-          <span className="items__rate">{formatAmount(perMinute(item.amount, time))}/min</span>
+          <span className="items__rate">
+            {rateOf(item.amount) !== null ? `${formatAmount(rateOf(item.amount)!)}/min` : ''}
+          </span>
           <button
             type="button"
             className="btn btn--icon"
@@ -86,7 +89,6 @@ export function RecipeForm({ recipeId, onDone }: Props) {
     existing ?? {
       name: '',
       machineId: data.machines[0]?.id ?? '',
-      time: 4,
       inputs: [],
       outputs: [],
     },
@@ -102,8 +104,8 @@ export function RecipeForm({ recipeId, onDone }: Props) {
       setError('La receta necesita un nombre.');
       return;
     }
-    if (draft.time <= 0) {
-      setError('El tiempo de ciclo debe ser mayor que cero.');
+    if (draft.time !== undefined && draft.time <= 0) {
+      setError('El tiempo de ciclo debe ser mayor que cero, o quedar vacio.');
       return;
     }
     if (draft.outputs.length === 0) {
@@ -139,7 +141,7 @@ export function RecipeForm({ recipeId, onDone }: Props) {
 
       <div className="form__row">
         <label className="field field--grow">
-          <span>Maquina</span>
+          <span>Estacion</span>
           <select value={draft.machineId} onChange={(e) => patch({ machineId: e.target.value })}>
             {data.machines.map((machine) => (
               <option key={machine.id} value={machine.id}>
@@ -154,8 +156,11 @@ export function RecipeForm({ recipeId, onDone }: Props) {
             type="number"
             min={0}
             step="any"
-            value={draft.time}
-            onChange={(e) => patch({ time: Number(e.target.value) })}
+            value={draft.time ?? ''}
+            placeholder="opcional"
+            onChange={(e) =>
+              patch({ time: e.target.value === '' ? undefined : Number(e.target.value) })
+            }
           />
         </label>
       </div>

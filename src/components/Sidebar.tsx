@@ -60,7 +60,7 @@ export function Sidebar() {
           type="search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Buscar material, receta o maquina…"
+          placeholder="Buscar material, receta o estacion…"
           aria-label="Buscar"
         />
       </div>
@@ -70,7 +70,7 @@ export function Sidebar() {
           [
             ['materiales', `Materiales (${data.materials.length})`],
             ['recetas', `Recetas (${data.recipes.length})`],
-            ['maquinas', `Maquinas (${data.machines.length})`],
+            ['maquinas', `Estaciones (${data.machines.length})`],
           ] as [Tab, string][]
         ).map(([id, label]) => (
           <button
@@ -172,7 +172,8 @@ export function Sidebar() {
                       {recipe.alternate && <span className="tag tag--alt">alt</span>}
                     </span>
                     <span className="row__sub">
-                      {machine?.name ?? 'Sin maquina'} · {formatAmount(recipe.time)} s ·{' '}
+                      {machine?.name ?? 'Sin estacion'}
+                      {recipe.time !== undefined && ` · ${formatAmount(recipe.time)} s`} ·{' '}
                       {recipe.outputs.map((o) => materialName(o.materialId)).join(', ')}
                     </span>
                   </span>
@@ -248,7 +249,7 @@ export function Sidebar() {
             className="btn btn--primary btn--block"
             onClick={() => openEditor({ kind: 'machine' })}
           >
-            + Nueva maquina
+            + Nueva estacion
           </button>
         )}
       </footer>

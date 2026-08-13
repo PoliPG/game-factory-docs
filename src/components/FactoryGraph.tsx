@@ -117,7 +117,11 @@ export function FactoryGraph() {
             strokeWidth: strong ? 2.4 : 1.4,
             opacity: dim ? 0.12 : strong ? 1 : 0.55,
           },
-          label: withLabel ? `${formatAmount(amount)} · ${formatAmount(perMin)}/min` : undefined,
+          label: withLabel
+            ? perMin !== null
+              ? `${formatAmount(amount)} · ${formatAmount(perMin)}/min`
+              : `×${formatAmount(amount)}`
+            : undefined,
           labelShowBg: true,
           labelBgPadding: [4, 2] as [number, number],
           labelBgBorderRadius: 4,

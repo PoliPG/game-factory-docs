@@ -236,9 +236,12 @@ export const useFactoryStore = create<FactoryState>()(
     }),
     {
       name: 'game-factory-docs:v1',
-      version: 1,
+      version: 2,
       // Solo el arbol de produccion sobrevive a la recarga; el estado de UI no.
       partialize: (state) => ({ data: state.data }),
+      // La version 1 guardaba un arbol de ejemplo distinto. Se descarta para
+      // que al abrir la pagina aparezca el arbol actual en lugar del anterior.
+      migrate: (persisted, version) => (version < 2 ? { data: freshSeed() } : persisted),
     },
   ),
 );

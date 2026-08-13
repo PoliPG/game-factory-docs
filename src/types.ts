@@ -15,12 +15,16 @@ export interface Category {
   color: string;
 }
 
-/** Edificio o maquina capaz de ejecutar recetas. */
+/**
+ * Estacion de trabajo: el edificio, banco o yacimiento donde ocurre algo.
+ * Sirve tanto para los sitios de extraccion como para los que ejecutan
+ * recetas.
+ */
 export interface Machine {
   id: string;
   name: string;
   icon: string;
-  /** Consumo electrico medio en MW mientras trabaja. */
+  /** Consumo electrico medio mientras trabaja, si el juego lo modela. */
   powerMw?: number;
 }
 
@@ -31,9 +35,9 @@ export interface Material {
   categoryId: string;
   /** Recurso base: no se fabrica, se extrae del mundo. */
   raw?: boolean;
-  /** Maquina de extraccion para los recursos base (id de Machine). */
+  /** Yacimiento del que se obtiene un recurso base (id de Machine). */
   extractedBy?: string;
-  /** Unidades por minuto que aporta un extractor (solo recursos base). */
+  /** Unidades por minuto que aporta el yacimiento, si se conoce. */
   extractionRate?: number;
   description?: string;
 }
@@ -49,8 +53,13 @@ export interface Recipe {
   id: string;
   name: string;
   machineId: string;
-  /** Duracion de un ciclo en segundos. */
-  time: number;
+  /**
+   * Duracion de un ciclo en segundos. Es opcional: hay juegos donde la
+   * fabricacion no lleva tiempo asociado (o aun no esta definido). Cuando
+   * falta, la interfaz muestra solo cantidades por ciclo, sin tasas por
+   * minuto — inventar un tiempo daria numeros de produccion falsos.
+   */
+  time?: number;
   inputs: RecipeItem[];
   outputs: RecipeItem[];
   /** Receta alternativa / desbloqueable. */

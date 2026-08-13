@@ -27,7 +27,8 @@ export interface RecipeIoRow {
   icon: string;
   color: string;
   amount: number;
-  perMin: number;
+  /** null cuando la receta no define tiempo de ciclo. */
+  perMin: number | null;
   missing: boolean;
 }
 
@@ -37,7 +38,7 @@ export interface RecipeNodeData extends Record<string, unknown> {
   machineName: string;
   machineIcon: string;
   powerMw?: number;
-  time: number;
+  time?: number;
   alternate: boolean;
   inputs: RecipeIoRow[];
   outputs: RecipeIoRow[];
@@ -51,7 +52,7 @@ export type FactoryNode = MaterialNode | RecipeNode;
 
 export interface FactoryEdgeData extends Record<string, unknown> {
   amount: number;
-  perMin: number;
+  perMin: number | null;
   kind: 'input' | 'output';
   color: string;
   emphasis: 'on' | 'off' | 'none';
@@ -150,7 +151,7 @@ export function buildGraph(data: FactoryData, options: BuildOptions): BuildResul
     return (material && categoryById.get(material.categoryId)?.color) ?? '#94a3b8';
   };
 
-  const toRow = (item: { materialId: string; amount: number }, time: number): RecipeIoRow => {
+  const toRow = (item: { materialId: string; amount: number }, time?: number): RecipeIoRow => {
     const material = materialById.get(item.materialId);
     return {
       materialId: item.materialId,
@@ -254,7 +255,7 @@ export function buildGraph(data: FactoryData, options: BuildOptions): BuildResul
         data: {
           recipeId: recipe.id,
           name: recipe.name,
-          machineName: machine?.name ?? 'Sin maquina',
+          machineName: machine?.name ?? 'Sin estacion',
           machineIcon: machine?.icon ?? '❓',
           powerMw: machine?.powerMw,
           time: recipe.time,

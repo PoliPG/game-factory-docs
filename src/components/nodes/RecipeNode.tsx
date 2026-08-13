@@ -22,7 +22,7 @@ function IoRow({ row, side }: RowProps) {
       </span>
       <span className="io__name">{row.name}</span>
       <span className="io__amount">×{formatAmount(row.amount)}</span>
-      <span className="io__rate">{formatAmount(row.perMin)}/min</span>
+      {row.perMin !== null && <span className="io__rate">{formatAmount(row.perMin)}/min</span>}
     </div>
   );
 }
@@ -45,7 +45,8 @@ export function RecipeNode({ data }: NodeProps<RecipeNodeType>) {
         <div className="recipe__heading">
           <div className="recipe__title">{name}</div>
           <div className="recipe__machine">
-            {machineName} · {formatAmount(time)} s
+            {machineName}
+            {time !== undefined && ` · ${formatAmount(time)} s`}
             {powerMw !== undefined && (
               <span className={powerMw < 0 ? 'power power--gen' : 'power'}>
                 {powerMw < 0 ? `+${formatAmount(-powerMw)}` : `−${formatAmount(powerMw)}`} MW

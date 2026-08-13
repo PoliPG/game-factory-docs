@@ -13,7 +13,7 @@ import { useFactoryStore } from './store/factoryStore';
 const TITLES = {
   material: ['Nuevo material', 'Editar material'],
   recipe: ['Nueva receta', 'Editar receta'],
-  machine: ['Nueva maquina', 'Editar maquina'],
+  machine: ['Nueva estacion', 'Editar estacion'],
   category: ['Nueva categoria', 'Editar categoria'],
 } as const;
 

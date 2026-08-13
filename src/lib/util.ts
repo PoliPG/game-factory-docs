@@ -26,9 +26,13 @@ export function formatAmount(value: number): string {
   return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2).replace(/0+$/, '').replace(/\.$/, '');
 }
 
-/** Unidades por minuto a partir de una cantidad por ciclo y la duracion del ciclo. */
-export function perMinute(amount: number, cycleSeconds: number): number {
-  if (!cycleSeconds || cycleSeconds <= 0) return 0;
+/**
+ * Unidades por minuto a partir de una cantidad por ciclo y la duracion del
+ * ciclo. Devuelve null cuando la receta no tiene tiempo definido: sin ese dato
+ * no hay tasa que mostrar.
+ */
+export function perMinute(amount: number, cycleSeconds?: number): number | null {
+  if (!cycleSeconds || cycleSeconds <= 0) return null;
   return (amount * 60) / cycleSeconds;
 }
 

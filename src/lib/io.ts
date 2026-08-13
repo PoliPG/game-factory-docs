@@ -83,7 +83,8 @@ export function parseFactoryData(raw: unknown): FactoryData {
       id: asString(r.id, `recipes[${i}].id`),
       name: asString(r.name, `recipes[${i}].name`),
       machineId: asString(r.machineId, `recipes[${i}].machineId`, machines[0]?.id ?? ''),
-      time: asNumber(r.time, `recipes[${i}].time`, 1),
+      // El tiempo de ciclo es opcional: hay juegos que no lo modelan.
+      time: typeof r.time === 'number' && Number.isFinite(r.time) ? r.time : undefined,
       inputs: parseItems(r.inputs, `recipes[${i}].inputs`),
       outputs: parseItems(r.outputs, `recipes[${i}].outputs`),
       alternate: Boolean(r.alternate) || undefined,
@@ -134,12 +135,15 @@ export function findIssues(data: FactoryData): Issue[] {
       }
     }
     if (!machineIds.has(recipe.machineId)) {
-      issues.push({ level: 'error', message: `La receta “${recipe.name}” no tiene maquina valida.` });
+      issues.push({
+        level: 'error',
+        message: `La receta “${recipe.name}” no tiene estacion valida.`,
+      });
     }
     if (recipe.outputs.length === 0) {
       issues.push({ level: 'warn', message: `La receta “${recipe.name}” no produce nada.` });
     }
-    if (recipe.time <= 0) {
+    if (recipe.time !== undefined && recipe.time <= 0) {
       issues.push({ level: 'error', message: `La receta “${recipe.name}” tiene un ciclo de 0 s.` });
     }
   }
