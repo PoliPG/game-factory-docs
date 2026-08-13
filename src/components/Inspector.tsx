@@ -139,10 +139,11 @@ function RecipeDetails({ recipe }: { recipe: Recipe }) {
         <div>
           <h2>
             {recipe.name}
+            {recipe.tier !== undefined && <span className="tag tag--tier">N{recipe.tier}</span>}
             {recipe.alternate && <span className="tag tag--alt">alt</span>}
           </h2>
           <p className="inspector__sub">
-            {machine?.name ?? 'Sin estacion'}
+            {machine?.name ?? 'Sin maquina'}
             {recipe.time !== undefined && ` · ciclo de ${formatAmount(recipe.time)} s`}
             {machine?.powerMw !== undefined &&
               (machine.powerMw < 0

@@ -356,6 +356,20 @@ input[type='color'] {
   color: #c084fc;
 }
 
+.tag--tier {
+  margin-left: 6px;
+  background: rgba(148, 163, 184, 0.16);
+  color: var(--text-dim);
+  font-family: var(--mono);
+  letter-spacing: 0.02em;
+}
+
+/* El nombre de la maquina, destacado dentro de la cabecera de la receta. */
+.recipe__machine strong {
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
 /* -------------------------------------------------------------- sidebar */
 
 .sidebar {
@@ -504,6 +518,15 @@ input[type='color'] {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.sidebar__group {
+  margin: 10px 0 4px;
+  padding: 0 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
 }
 
 .sidebar__empty {

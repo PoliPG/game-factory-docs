@@ -39,6 +39,7 @@ export interface RecipeNodeData extends Record<string, unknown> {
   machineIcon: string;
   powerMw?: number;
   time?: number;
+  tier?: number;
   alternate: boolean;
   inputs: RecipeIoRow[];
   outputs: RecipeIoRow[];
@@ -259,6 +260,7 @@ export function buildGraph(data: FactoryData, options: BuildOptions): BuildResul
           machineIcon: machine?.icon ?? '❓',
           powerMw: machine?.powerMw,
           time: recipe.time,
+          tier: recipe.tier,
           alternate: Boolean(recipe.alternate),
           inputs: recipe.inputs.map((item) => toRow(item, recipe.time)),
           outputs: recipe.outputs.map((item) => toRow(item, recipe.time)),

@@ -29,8 +29,19 @@ function IoRow({ row, side }: RowProps) {
 
 /** Nodo de receta: la maquina que transforma unos materiales en otros. */
 export function RecipeNode({ data }: NodeProps<RecipeNodeType>) {
-  const { name, machineName, machineIcon, powerMw, time, alternate, inputs, outputs, emphasis, selected } =
-    data;
+  const {
+    name,
+    machineName,
+    machineIcon,
+    powerMw,
+    time,
+    tier,
+    alternate,
+    inputs,
+    outputs,
+    emphasis,
+    selected,
+  } = data;
 
   return (
     <div
@@ -39,13 +50,13 @@ export function RecipeNode({ data }: NodeProps<RecipeNodeType>) {
       }`}
     >
       <header className="recipe__header">
-        <span className="recipe__machine-icon" aria-hidden="true">
+        <span className="recipe__machine-icon" title={machineName} aria-hidden="true">
           {machineIcon}
         </span>
         <div className="recipe__heading">
           <div className="recipe__title">{name}</div>
           <div className="recipe__machine">
-            {machineName}
+            <strong>{machineName}</strong>
             {time !== undefined && ` · ${formatAmount(time)} s`}
             {powerMw !== undefined && (
               <span className={powerMw < 0 ? 'power power--gen' : 'power'}>
@@ -54,6 +65,11 @@ export function RecipeNode({ data }: NodeProps<RecipeNodeType>) {
             )}
           </div>
         </div>
+        {tier !== undefined && (
+          <span className="tag tag--tier" title={`Nivel ${tier}`}>
+            N{tier}
+          </span>
+        )}
         {alternate && <span className="tag tag--alt">alt</span>}
       </header>
 

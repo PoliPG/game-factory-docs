@@ -53,6 +53,16 @@ export function Sidebar() {
 
   const materialName = (id: string) => data.materials.find((m) => m.id === id)?.name ?? id;
 
+  /** Cuantos recursos base sale de cada yacimiento; vacio para las maquinas. */
+  const extraccionPorMaquina = useMemo(() => {
+    const cuenta = new Map<string, number>();
+    for (const material of data.materials) {
+      if (!material.extractedBy) continue;
+      cuenta.set(material.extractedBy, (cuenta.get(material.extractedBy) ?? 0) + 1);
+    }
+    return cuenta;
+  }, [data.materials]);
+
   return (
     <aside className="sidebar">
       <div className="sidebar__search">
@@ -169,10 +179,13 @@ export function Sidebar() {
                   <span className="row__text">
                     <span className="row__title">
                       {recipe.name}
+                      {recipe.tier !== undefined && (
+                        <span className="tag tag--tier">N{recipe.tier}</span>
+                      )}
                       {recipe.alternate && <span className="tag tag--alt">alt</span>}
                     </span>
                     <span className="row__sub">
-                      {machine?.name ?? 'Sin estacion'}
+                      {machine?.name ?? 'Sin maquina'}
                       {recipe.time !== undefined && ` · ${formatAmount(recipe.time)} s`} ·{' '}
                       {recipe.outputs.map((o) => materialName(o.materialId)).join(', ')}
                     </span>
@@ -191,28 +204,45 @@ export function Sidebar() {
           })}
 
         {tab === 'maquinas' &&
-          machines.map((machine) => {
-            const uses = data.recipes.filter((r) => r.machineId === machine.id).length;
+          (['yacimiento', 'maquina'] as const).map((grupo) => {
+            const delGrupo = machines.filter((machine) =>
+              grupo === 'yacimiento' ? extraccionPorMaquina.has(machine.id) : !extraccionPorMaquina.has(machine.id),
+            );
+            if (delGrupo.length === 0) return null;
+
             return (
-              <div key={machine.id} className="row">
-                <button
-                  type="button"
-                  className="row__main"
-                  onClick={() => openEditor({ kind: 'machine', id: machine.id })}
-                >
-                  <span className="row__icon">{machine.icon}</span>
-                  <span className="row__text">
-                    <span className="row__title">{machine.name}</span>
-                    <span className="row__sub">
-                      {uses} receta(s)
-                      {machine.powerMw !== undefined
-                        ? machine.powerMw < 0
-                          ? ` · genera ${formatAmount(-machine.powerMw)} MW`
-                          : ` · ${formatAmount(machine.powerMw)} MW`
-                        : ''}
-                    </span>
-                  </span>
-                </button>
+              <div key={grupo}>
+                <p className="sidebar__group">
+                  {grupo === 'yacimiento' ? 'Yacimientos' : 'Maquinas de fabricacion'}
+                </p>
+                {delGrupo.map((machine) => {
+                  const recetas = data.recipes.filter((r) => r.machineId === machine.id).length;
+                  const recursos = extraccionPorMaquina.get(machine.id) ?? 0;
+                  return (
+                    <div key={machine.id} className="row">
+                      <button
+                        type="button"
+                        className="row__main"
+                        onClick={() => openEditor({ kind: 'machine', id: machine.id })}
+                      >
+                        <span className="row__icon">{machine.icon}</span>
+                        <span className="row__text">
+                          <span className="row__title">{machine.name}</span>
+                          <span className="row__sub">
+                            {recursos > 0
+                              ? `extrae ${recursos} recurso(s)`
+                              : `${recetas} receta(s)`}
+                            {machine.powerMw !== undefined
+                              ? machine.powerMw < 0
+                                ? ` · genera ${formatAmount(-machine.powerMw)} MW`
+                                : ` · ${formatAmount(machine.powerMw)} MW`
+                              : ''}
+                          </span>
+                        </span>
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             );
           })}

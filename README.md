@@ -98,7 +98,7 @@ volcando el JSON en `seed.ts`, o editando ese archivo directamente).
 Cuatro yacimientos alimentan siete niveles de fabricación que terminan en el
 pozo:
 
-| | |
+| Nivel | Qué produce |
 | --- | --- |
 | **Yacimientos** | Vetas de cristal · Cementerio · Bosque retorcido · Cantera antigua |
 | **N1 Procesamiento básico** | tablas, bloques de piedra, polvo de hueso, cuero tratado, fibras |
@@ -109,6 +109,27 @@ pozo:
 | **N6 Recursos cósmicos** | fragmento del vacío, sangre cristalizada, eco dimensional… |
 | **N7 Ofrendas** | menor, de conocimiento, de carne, del vacío y primordial |
 | **Pozo** | convierte cada ofrenda en puntos de invocación (100 a 10.000) |
+
+### Las ocho máquinas
+
+Cada receta se fabrica en una máquina, asignada por la naturaleza del trabajo y
+no por el nivel: una máquina atiende a varios niveles y un nivel reparte sus
+recetas entre varias máquinas. El nodo de cada receta muestra ambas cosas —la
+máquina en la cabecera y el nivel como etiqueta `N1`…`N7`.
+
+| Máquina | Trabajo | Recetas |
+| --- | --- | ---: |
+| ⚒️ Trituradora | moler y fragmentar: polvo de hueso, piedra, cristal | 6 |
+| 🔨 Mesa de tallado | cortar madera y piedra: tablas, bloques, placas, llave ciclópea | 5 |
+| ⚗️ Caldero alquímico | macerar y destilar: resinas, extractos, tintas, curtidos | 7 |
+| 🔱 Altar de infusión | infundir energía arcana: esencias, núcleos, cables | 8 |
+| 🧰 Banco de ensamblaje | montar piezas: engranajes, placas, corazón artificial | 6 |
+| 🕸️ Círculo ritual | consagrar: sellos, ídolos, tótems y las cinco ofrendas | 10 |
+| 🌪️ Portal del vacío | manipular materia cósmica: orbe, ecos, llave del umbral | 5 |
+| 🕳️ Pozo | recibe las ofrendas y las convierte en invocación | 6 |
+
+Los cuatro yacimientos no fabrican nada: solo marcan de dónde sale cada recurso
+base, y en el panel lateral aparecen aparte de las máquinas.
 
 El nodo final, *Despertar de la deidad*, consume invocación. Como el 100% de la
 barra no está definido, la receta asume 10.000 puntos (lo que da una ofrenda
@@ -144,7 +165,8 @@ interface Material {
 interface Recipe {
   id: string;
   name: string;
-  machineId: string;
+  machineId: string;    // dónde se fabrica
+  tier?: number;        // nivel de progresión (1-7), independiente de la máquina
   time?: number;                                 // segundos por ciclo (opcional)
   inputs: { materialId: string; amount: number }[];
   outputs: { materialId: string; amount: number }[];

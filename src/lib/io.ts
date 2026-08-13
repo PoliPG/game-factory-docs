@@ -87,6 +87,7 @@ export function parseFactoryData(raw: unknown): FactoryData {
       time: typeof r.time === 'number' && Number.isFinite(r.time) ? r.time : undefined,
       inputs: parseItems(r.inputs, `recipes[${i}].inputs`),
       outputs: parseItems(r.outputs, `recipes[${i}].outputs`),
+      tier: typeof r.tier === 'number' && Number.isFinite(r.tier) ? r.tier : undefined,
       alternate: Boolean(r.alternate) || undefined,
       notes: typeof r.notes === 'string' ? r.notes : undefined,
     };

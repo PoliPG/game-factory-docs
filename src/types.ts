@@ -62,6 +62,12 @@ export interface Recipe {
   time?: number;
   inputs: RecipeItem[];
   outputs: RecipeItem[];
+  /**
+   * Nivel de progresion al que pertenece la receta (1 a 7 en el arbol actual).
+   * Es independiente de la maquina: dos recetas del mismo nivel pueden
+   * fabricarse en maquinas distintas, y una maquina sirve a varios niveles.
+   */
+  tier?: number;
   /** Receta alternativa / desbloqueable. */
   alternate?: boolean;
   notes?: string;

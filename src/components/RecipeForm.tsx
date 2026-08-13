@@ -121,6 +121,7 @@ export function RecipeForm({ recipeId, onDone }: Props) {
       name,
       inputs: clean(draft.inputs),
       outputs: clean(draft.outputs),
+      tier: Number.isFinite(draft.tier) ? draft.tier : undefined,
       alternate: draft.alternate || undefined,
       notes: draft.notes?.trim() || undefined,
     });
@@ -141,7 +142,7 @@ export function RecipeForm({ recipeId, onDone }: Props) {
 
       <div className="form__row">
         <label className="field field--grow">
-          <span>Estacion</span>
+          <span>Maquina</span>
           <select value={draft.machineId} onChange={(e) => patch({ machineId: e.target.value })}>
             {data.machines.map((machine) => (
               <option key={machine.id} value={machine.id}>
@@ -149,6 +150,19 @@ export function RecipeForm({ recipeId, onDone }: Props) {
               </option>
             ))}
           </select>
+        </label>
+        <label className="field">
+          <span>Nivel</span>
+          <input
+            type="number"
+            min={1}
+            step={1}
+            value={draft.tier ?? ''}
+            placeholder="opcional"
+            onChange={(e) =>
+              patch({ tier: e.target.value === '' ? undefined : Number(e.target.value) })
+            }
+          />
         </label>
         <label className="field">
           <span>Ciclo (s)</span>

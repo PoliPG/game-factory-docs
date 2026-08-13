@@ -23,20 +23,22 @@ export const seedData: FactoryData = {
   ],
 
   machines: [
-    // --- Yacimientos -------------------------------------------------------
+    // --- Yacimientos: de donde salen los recursos base ---------------------
     { id: 'vetas', name: 'Vetas de cristal', icon: '⛏️' },
     { id: 'cementerio', name: 'Cementerio', icon: '🪦' },
     { id: 'bosque', name: 'Bosque retorcido', icon: '🌲' },
     { id: 'cantera', name: 'Cantera antigua', icon: '🪨' },
 
-    // --- Estaciones por nivel ---------------------------------------------
-    { id: 'n1', name: 'N1 · Procesamiento basico', icon: '🔨' },
-    { id: 'n2', name: 'N2 · Materiales arcanos', icon: '🔮' },
-    { id: 'n3', name: 'N3 · Componentes industriales', icon: '⚙️' },
-    { id: 'n4', name: 'N4 · Objetos rituales', icon: '🕯️' },
-    { id: 'n5', name: 'N5 · Artefactos', icon: '🗿' },
-    { id: 'n6', name: 'N6 · Recursos cosmicos', icon: '🌌' },
-    { id: 'n7', name: 'N7 · Ofrendas', icon: '🩸' },
+    // --- Las ocho maquinas de fabricacion ----------------------------------
+    // Cada receta se asigna por la naturaleza del trabajo, no por su nivel:
+    // una misma maquina atiende varios niveles y un nivel usa varias maquinas.
+    { id: 'trituradora', name: 'Trituradora', icon: '⚒️' },
+    { id: 'mesa-tallado', name: 'Mesa de tallado', icon: '🔨' },
+    { id: 'caldero', name: 'Caldero alquimico', icon: '⚗️' },
+    { id: 'altar', name: 'Altar de infusion', icon: '🔱' },
+    { id: 'banco', name: 'Banco de ensamblaje', icon: '🧰' },
+    { id: 'circulo', name: 'Circulo ritual', icon: '🕸️' },
+    { id: 'portal', name: 'Portal del vacio', icon: '🌪️' },
     { id: 'pozo', name: 'Pozo', icon: '🕳️' },
   ],
 
@@ -208,84 +210,96 @@ export const seedData: FactoryData = {
     {
       id: 'r-tablas-oscuras',
       name: 'Tablas oscuras',
-      machineId: 'n1',
+      machineId: 'mesa-tallado',
+      tier: 1,
       inputs: [{ materialId: 'madera-negra', amount: 2 }],
       outputs: [{ materialId: 'tablas-oscuras', amount: 2 }],
     },
     {
       id: 'r-madera-procesada',
       name: 'Madera procesada',
-      machineId: 'n1',
+      machineId: 'mesa-tallado',
+      tier: 1,
       inputs: [{ materialId: 'ramas-retorcidas', amount: 2 }],
       outputs: [{ materialId: 'madera-procesada', amount: 1 }],
     },
     {
       id: 'r-piedra-fragmentada',
       name: 'Piedra fragmentada',
-      machineId: 'n1',
+      machineId: 'trituradora',
+      tier: 1,
       inputs: [{ materialId: 'piedra-bruto', amount: 2 }],
       outputs: [{ materialId: 'piedra-fragmentada', amount: 3 }],
     },
     {
       id: 'r-bloque-piedra',
       name: 'Bloque de piedra',
-      machineId: 'n1',
+      machineId: 'mesa-tallado',
+      tier: 1,
       inputs: [{ materialId: 'piedra-fragmentada', amount: 2 }],
       outputs: [{ materialId: 'bloque-piedra', amount: 1 }],
     },
     {
       id: 'r-polvo-hueso-huesos',
       name: 'Polvo de hueso (huesos)',
-      machineId: 'n1',
+      machineId: 'trituradora',
+      tier: 1,
       inputs: [{ materialId: 'huesos', amount: 2 }],
       outputs: [{ materialId: 'polvo-hueso', amount: 1 }],
     },
     {
       id: 'r-polvo-hueso-craneos',
       name: 'Polvo de hueso (craneos)',
-      machineId: 'n1',
+      machineId: 'trituradora',
+      tier: 1,
       inputs: [{ materialId: 'craneos', amount: 2 }],
       outputs: [{ materialId: 'polvo-hueso', amount: 2 }],
     },
     {
       id: 'r-polvo-hueso-dientes',
       name: 'Polvo de hueso (dientes)',
-      machineId: 'n1',
+      machineId: 'trituradora',
+      tier: 1,
       inputs: [{ materialId: 'dientes', amount: 2 }],
       outputs: [{ materialId: 'polvo-hueso', amount: 1 }],
     },
     {
       id: 'r-fragmentos-cristal',
       name: 'Fragmentos de cristal',
-      machineId: 'n1',
+      machineId: 'trituradora',
+      tier: 1,
       inputs: [{ materialId: 'cristal-magico', amount: 2 }],
       outputs: [{ materialId: 'fragmentos-cristal', amount: 3 }],
     },
     {
       id: 'r-cuero-tratado',
       name: 'Cuero tratado',
-      machineId: 'n1',
+      machineId: 'caldero',
+      tier: 1,
       inputs: [{ materialId: 'cuero-crudo', amount: 2 }],
       outputs: [{ materialId: 'cuero-tratado', amount: 1 }],
     },
     {
       id: 'r-resina-corrupta',
       name: 'Resina corrupta',
-      machineId: 'n1',
+      machineId: 'caldero',
+      tier: 1,
       inputs: [{ materialId: 'savia-oscura', amount: 2 }],
       outputs: [{ materialId: 'resina-corrupta', amount: 1 }],
     },
     {
       id: 'r-extracto-fungico',
       name: 'Extracto fungico',
-      machineId: 'n1',
+      machineId: 'caldero',
+      tier: 1,
       inputs: [{ materialId: 'hongos-oscuros', amount: 2 }],
       outputs: [{ materialId: 'extracto-fungico', amount: 1 }],
     },
     {
       id: 'r-fibra-retorcida',
       name: 'Fibra retorcida',
-      machineId: 'n1',
+      machineId: 'caldero',
+      tier: 1,
       inputs: [{ materialId: 'raiz-retorcida', amount: 2 }],
       outputs: [{ materialId: 'fibra-retorcida', amount: 1 }],
     },
@@ -294,14 +308,16 @@ export const seedData: FactoryData = {
     {
       id: 'r-polvo-magico',
       name: 'Polvo magico',
-      machineId: 'n2',
+      machineId: 'trituradora',
+      tier: 2,
       inputs: [{ materialId: 'cristal-magico', amount: 2 }],
       outputs: [{ materialId: 'polvo-magico', amount: 3 }],
     },
     {
       id: 'r-esencia-arcana',
       name: 'Esencia arcana',
-      machineId: 'n2',
+      machineId: 'altar',
+      tier: 2,
       inputs: [
         { materialId: 'fragmentos-cristal', amount: 3 },
         { materialId: 'polvo-magico', amount: 1 },
@@ -311,7 +327,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-cristal-pulido',
       name: 'Cristal pulido',
-      machineId: 'n2',
+      machineId: 'altar',
+      tier: 2,
       inputs: [
         { materialId: 'fragmentos-cristal', amount: 2 },
         { materialId: 'esencia-arcana', amount: 1 },
@@ -321,7 +338,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-nucleo-arcano',
       name: 'Nucleo arcano',
-      machineId: 'n2',
+      machineId: 'altar',
+      tier: 2,
       inputs: [
         { materialId: 'tablas-oscuras', amount: 2 },
         { materialId: 'esencia-arcana', amount: 1 },
@@ -331,7 +349,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-nucleo-oseo',
       name: 'Nucleo oseo',
-      machineId: 'n2',
+      machineId: 'altar',
+      tier: 2,
       inputs: [
         { materialId: 'huesos', amount: 3 },
         { materialId: 'polvo-hueso', amount: 1 },
@@ -342,7 +361,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-cuero-reforzado',
       name: 'Cuero reforzado',
-      machineId: 'n2',
+      machineId: 'banco',
+      tier: 2,
       inputs: [
         { materialId: 'cuero-tratado', amount: 2 },
         { materialId: 'fibra-retorcida', amount: 1 },
@@ -354,7 +374,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-engranaje-oscuro',
       name: 'Engranaje oscuro',
-      machineId: 'n3',
+      machineId: 'banco',
+      tier: 3,
       inputs: [
         { materialId: 'piedra-fragmentada', amount: 2 },
         { materialId: 'madera-procesada', amount: 1 },
@@ -364,14 +385,16 @@ export const seedData: FactoryData = {
     {
       id: 'r-placas-piedra',
       name: 'Placas de piedra',
-      machineId: 'n3',
+      machineId: 'mesa-tallado',
+      tier: 3,
       inputs: [{ materialId: 'bloque-piedra', amount: 2 }],
       outputs: [{ materialId: 'placas-piedra', amount: 3 }],
     },
     {
       id: 'r-placa-reforzada',
       name: 'Placa reforzada',
-      machineId: 'n3',
+      machineId: 'banco',
+      tier: 3,
       inputs: [
         { materialId: 'placas-piedra', amount: 2 },
         { materialId: 'cuero-reforzado', amount: 1 },
@@ -381,7 +404,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-cables-arcanos',
       name: 'Cables arcanos',
-      machineId: 'n3',
+      machineId: 'altar',
+      tier: 3,
       inputs: [
         { materialId: 'fibra-retorcida', amount: 1 },
         { materialId: 'cristal-pulido', amount: 1 },
@@ -392,7 +416,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-conducto-arcano',
       name: 'Conducto arcano',
-      machineId: 'n3',
+      machineId: 'banco',
+      tier: 3,
       inputs: [
         { materialId: 'placas-piedra', amount: 2 },
         { materialId: 'cristal-pulido', amount: 1 },
@@ -403,7 +428,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-engranaje-arcano',
       name: 'Engranaje arcano',
-      machineId: 'n3',
+      machineId: 'altar',
+      tier: 3,
       inputs: [
         { materialId: 'engranaje-oscuro', amount: 1 },
         { materialId: 'cristal-pulido', amount: 1 },
@@ -416,7 +442,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-velas-negras',
       name: 'Velas negras',
-      machineId: 'n4',
+      machineId: 'caldero',
+      tier: 4,
       inputs: [
         { materialId: 'cuero-tratado', amount: 1 },
         { materialId: 'savia-oscura', amount: 1 },
@@ -427,7 +454,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-incienso-corrupto',
       name: 'Incienso corrupto',
-      machineId: 'n4',
+      machineId: 'caldero',
+      tier: 4,
       inputs: [
         { materialId: 'hongos-oscuros', amount: 2 },
         { materialId: 'resina-corrupta', amount: 1 },
@@ -437,7 +465,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-tinta-prohibida',
       name: 'Tinta prohibida',
-      machineId: 'n4',
+      machineId: 'caldero',
+      tier: 4,
       inputs: [
         { materialId: 'polvo-hueso', amount: 1 },
         { materialId: 'savia-oscura', amount: 1 },
@@ -448,7 +477,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-pergamino-ritual',
       name: 'Pergamino ritual',
-      machineId: 'n4',
+      machineId: 'circulo',
+      tier: 4,
       inputs: [
         { materialId: 'cuero-tratado', amount: 2 },
         { materialId: 'tinta-prohibida', amount: 1 },
@@ -458,7 +488,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-sello-arcano',
       name: 'Sello arcano',
-      machineId: 'n4',
+      machineId: 'circulo',
+      tier: 4,
       inputs: [
         { materialId: 'piedra-tallada', amount: 1 },
         { materialId: 'cristal-pulido', amount: 1 },
@@ -469,7 +500,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-idolo-menor',
       name: 'Idolo menor',
-      machineId: 'n4',
+      machineId: 'circulo',
+      tier: 4,
       inputs: [
         { materialId: 'piedra-tallada', amount: 2 },
         { materialId: 'nucleo-oseo', amount: 1 },
@@ -482,7 +514,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-ojo-arcano',
       name: 'Ojo arcano',
-      machineId: 'n5',
+      machineId: 'altar',
+      tier: 5,
       inputs: [
         { materialId: 'cristal-pulido', amount: 1 },
         { materialId: 'nucleo-arcano', amount: 1 },
@@ -493,7 +526,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-corazon-artificial',
       name: 'Corazon artificial',
-      machineId: 'n5',
+      machineId: 'banco',
+      tier: 5,
       inputs: [
         { materialId: 'nucleo-arcano', amount: 2 },
         { materialId: 'nucleo-oseo', amount: 1 },
@@ -504,7 +538,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-mascara-cultista',
       name: 'Mascara del cultista',
-      machineId: 'n5',
+      machineId: 'banco',
+      tier: 5,
       inputs: [
         { materialId: 'cuero-reforzado', amount: 2 },
         { materialId: 'huesos', amount: 1 },
@@ -515,7 +550,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-totem-abismo',
       name: 'Totem del abismo',
-      machineId: 'n5',
+      machineId: 'circulo',
+      tier: 5,
       inputs: [
         { materialId: 'madera-procesada', amount: 2 },
         { materialId: 'craneos', amount: 1 },
@@ -527,7 +563,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-llave-ciclopea',
       name: 'Llave ciclopea',
-      machineId: 'n5',
+      machineId: 'mesa-tallado',
+      tier: 5,
       inputs: [
         { materialId: 'piedra-tallada', amount: 2 },
         { materialId: 'obsidiana', amount: 1 },
@@ -538,7 +575,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-orbe-vacio',
       name: 'Orbe del vacio',
-      machineId: 'n5',
+      machineId: 'portal',
+      tier: 5,
       inputs: [
         { materialId: 'cristal-pulido', amount: 2 },
         { materialId: 'nucleo-arcano', amount: 1 },
@@ -551,7 +589,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-fragmento-vacio',
       name: 'Fragmento del vacio',
-      machineId: 'n6',
+      machineId: 'portal',
+      tier: 6,
       inputs: [
         { materialId: 'orbe-vacio', amount: 1 },
         { materialId: 'esencia-arcana', amount: 2 },
@@ -561,7 +600,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-sangre-cristalizada',
       name: 'Sangre cristalizada',
-      machineId: 'n6',
+      machineId: 'altar',
+      tier: 6,
       inputs: [
         { materialId: 'nucleo-oseo', amount: 1 },
         { materialId: 'cristal-pulido', amount: 1 },
@@ -572,7 +612,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-eco-dimensional',
       name: 'Eco dimensional',
-      machineId: 'n6',
+      machineId: 'portal',
+      tier: 6,
       inputs: [
         { materialId: 'fragmento-vacio', amount: 1 },
         { materialId: 'nucleo-arcano', amount: 1 },
@@ -583,7 +624,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-nombre-prohibido',
       name: 'Nombre prohibido',
-      machineId: 'n6',
+      machineId: 'circulo',
+      tier: 6,
       inputs: [
         { materialId: 'pergamino-ritual', amount: 2 },
         { materialId: 'tinta-prohibida', amount: 1 },
@@ -594,7 +636,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-llave-umbral',
       name: 'Llave del umbral',
-      machineId: 'n6',
+      machineId: 'portal',
+      tier: 6,
       inputs: [
         { materialId: 'llave-ciclopea', amount: 1 },
         { materialId: 'nucleo-arcano', amount: 1 },
@@ -605,7 +648,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-corazon-abismo',
       name: 'Corazon del abismo',
-      machineId: 'n6',
+      machineId: 'portal',
+      tier: 6,
       inputs: [
         { materialId: 'corazon-artificial', amount: 1 },
         { materialId: 'sangre-cristalizada', amount: 2 },
@@ -618,7 +662,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-ofrenda-menor',
       name: 'Ofrenda menor',
-      machineId: 'n7',
+      machineId: 'circulo',
+      tier: 7,
       inputs: [
         { materialId: 'idolo-menor', amount: 2 },
         { materialId: 'incienso-corrupto', amount: 1 },
@@ -628,7 +673,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-ofrenda-conocimiento',
       name: 'Ofrenda de conocimiento',
-      machineId: 'n7',
+      machineId: 'circulo',
+      tier: 7,
       inputs: [
         { materialId: 'pergamino-ritual', amount: 2 },
         { materialId: 'nombre-prohibido', amount: 1 },
@@ -638,7 +684,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-ofrenda-carne',
       name: 'Ofrenda de carne',
-      machineId: 'n7',
+      machineId: 'circulo',
+      tier: 7,
       inputs: [
         { materialId: 'nucleo-oseo', amount: 2 },
         { materialId: 'sangre-cristalizada', amount: 1 },
@@ -649,7 +696,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-ofrenda-vacio',
       name: 'Ofrenda del vacio',
-      machineId: 'n7',
+      machineId: 'circulo',
+      tier: 7,
       inputs: [
         { materialId: 'fragmento-vacio', amount: 2 },
         { materialId: 'orbe-vacio', amount: 1 },
@@ -660,7 +708,8 @@ export const seedData: FactoryData = {
     {
       id: 'r-ofrenda-primordial',
       name: 'Ofrenda primordial',
-      machineId: 'n7',
+      machineId: 'circulo',
+      tier: 7,
       inputs: [
         { materialId: 'corazon-abismo', amount: 1 },
         { materialId: 'llave-umbral', amount: 1 },
