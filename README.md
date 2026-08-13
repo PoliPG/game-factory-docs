@@ -4,6 +4,8 @@ Visualizador de nodos, hecho con **React Flow**, para documentar el árbol de
 producción de un juego de automatización: qué materiales existen, qué recetas
 los transforman y cómo se conectan entre sí.
 
+**▶ [Verlo en funcionamiento](https://polipg.github.io/game-factory-docs/)**
+
 ![Vista general del grafo](docs/captura-grafo.png)
 
 ## Qué hace
@@ -40,6 +42,28 @@ npm run build      # comprueba tipos y genera dist/
 npm run preview    # sirve dist/ en local
 npm run typecheck  # solo TypeScript
 ```
+
+## Despliegue en GitHub Pages
+
+`.github/workflows/deploy.yml` compila el proyecto y publica `dist/` en Pages.
+
+- **Se compila en cada push y en cada pull request**, en cualquier rama, así un
+  error de tipos o de build salta antes de mezclar.
+- **Se publica solo desde la rama por defecto** del repositorio. La condición es
+  dinámica (`github.ref_name == github.event.repository.default_branch`), de
+  modo que si la rama por defecto se renombra o pasa a ser `main`, el
+  despliegue la sigue sin tocar el workflow.
+- El propio workflow activa Pages con origen *GitHub Actions* la primera vez
+  (`configure-pages` con `enablement: true`). Si tu organización no lo permite,
+  actívalo a mano en **Settings → Pages → Source: GitHub Actions** y vuelve a
+  lanzar el workflow.
+- También se puede lanzar a mano desde **Actions → Deploy a GitHub Pages → Run
+  workflow**.
+
+El sitio es estático y sin backend: los datos viven en `src/data/seed.ts` y las
+ediciones de cada visitante se guardan en su propio navegador. `vite.config.ts`
+usa `base: './'` (rutas relativas), así que funciona igual en la raíz del
+dominio que en un subdirectorio como `/game-factory-docs/`.
 
 ## Modelo de datos
 
