@@ -47,16 +47,20 @@ npm run typecheck  # solo TypeScript
 
 `.github/workflows/deploy.yml` compila el proyecto y publica `dist/` en Pages.
 
+> **Un paso manual, solo la primera vez:** entra en **Settings → Pages** y elige
+> **Source: GitHub Actions**. El `GITHUB_TOKEN` de un workflow no tiene permiso
+> para crear el sitio, así que hasta que no lo actives el job *Publicar* falla
+> con `Resource not accessible by integration`. Una vez activado, cada push
+> despliega solo.
+
 - **Se compila en cada push y en cada pull request**, en cualquier rama, así un
   error de tipos o de build salta antes de mezclar.
 - **Se publica solo desde la rama por defecto** del repositorio. La condición es
   dinámica (`github.ref_name == github.event.repository.default_branch`), de
   modo que si la rama por defecto se renombra o pasa a ser `main`, el
   despliegue la sigue sin tocar el workflow.
-- El propio workflow activa Pages con origen *GitHub Actions* la primera vez
-  (`configure-pages` con `enablement: true`). Si tu organización no lo permite,
-  actívalo a mano en **Settings → Pages → Source: GitHub Actions** y vuelve a
-  lanzar el workflow.
+- No usa `actions/configure-pages`: al compilar con base relativa no hace falta
+  conocer la URL de Pages, y así hay un punto menos de fallo.
 - También se puede lanzar a mano desde **Actions → Deploy a GitHub Pages → Run
   workflow**.
 

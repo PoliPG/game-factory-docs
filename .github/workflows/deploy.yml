@@ -21,9 +21,9 @@ jobs:
     name: Compilar
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -36,13 +36,9 @@ jobs:
       - name: Compilar
         run: npm run build
 
-      - name: Configurar Pages
-        if: github.ref_name == github.event.repository.default_branch
-        uses: actions/configure-pages@v5
-        with:
-          # Activa Pages con origen "GitHub Actions" si aun no lo estaba.
-          enablement: true
-
+      # No hace falta actions/configure-pages: vite.config.ts usa base relativa
+      # ('./'), asi que el sitio funciona en cualquier ruta sin conocer la URL
+      # de Pages durante la compilacion.
       - name: Subir artefacto
         if: github.ref_name == github.event.repository.default_branch
         uses: actions/upload-pages-artifact@v3
